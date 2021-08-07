@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "models/*": ["./src/database/models/*"],
+      "repositories/*": ["./src/database/repositories/*"],
+      "routes/*": ["./src/routes/*"],
+      "database/*": ["./src/database/*"],
+      "entities/*": ["./src/database/entities/*"],
+      "common/*": ["./src/common/*"],
+      "types/*": ["./src/types/*"],
+      "@/*": ["./src/*"]
+    }
+  }
+}

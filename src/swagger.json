@@ -1,0 +1,156 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Pick_IUser.id-or-email-or-name-or-created_at-or-updated_at_": {
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"email",
+					"name",
+					"created_at",
+					"updated_at"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"IUserGetRes": {
+				"$ref": "#/components/schemas/Pick_IUser.id-or-email-or-name-or-created_at-or-updated_at_"
+			},
+			"IUserCreateReq": {
+				"properties": {
+					"authorization_code": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"authorization_code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"basic": {
+				"type": "apiKey",
+				"name": "authorization",
+				"in": "header"
+			},
+			"google_oauth": {
+				"type": "oauth2",
+				"description": "Google OAuth 2.0",
+				"flows": {
+					"authorizationCode": {
+						"tokenUrl": "https://oauth2.googleapis.com/token",
+						"authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+						"scopes": [
+							"https://www.googleapis.com/auth/userinfo.email",
+							"https://www.googleapis.com/auth/userinfo.profile",
+							"https://www.googleapis.com/auth/contacts.readonly"
+						]
+					}
+				}
+			}
+		}
+	},
+	"info": {
+		"title": "gmail-extension-server",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Jimmy Sorza ",
+			"email": "sorza.jimmy05@gmail.com"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/users/{email}": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IUserGetRes"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"basic": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "email",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users": {
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				},
+				"security": [
+					{
+						"basic": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUserCreateReq"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api"
+		}
+	]
+}

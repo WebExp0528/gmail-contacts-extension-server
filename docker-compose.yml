@@ -1,0 +1,42 @@
+version: '3'
+services:
+  app:
+    container_name: gmail_ext_server
+    build: .
+    depends_on:
+      - db
+      - pgadmin
+    environment:
+      NODE_ENV: development
+      PORT: ${PORT}
+    ports:
+      - '${PORT}:${PORT}'
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    tty: true
+
+  db:
+    container_name: gmail_ext_db
+    restart: unless-stopped
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PASS}'
+      POSTGRES_DB: '${DB_NAME}'
+    volumes:
+      - ./postgresDB:/var/lib/postgresql/data
+  pgadmin:
+    container_name: gmail_ext_admin
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'sorza.jimmy05@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: '${DB_PASS}'
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - '8080:80'
