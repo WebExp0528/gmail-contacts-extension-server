@@ -1,3 +1,6 @@
+// eslint-disable-next-line
+const dotenv = require('dotenv');
+dotenv.config();
 import { getDbConnection } from './database';
 
 import { app } from './app';

@@ -66,11 +66,11 @@
 					"authorizationCode": {
 						"tokenUrl": "https://oauth2.googleapis.com/token",
 						"authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
-						"scopes": [
-							"https://www.googleapis.com/auth/userinfo.email",
-							"https://www.googleapis.com/auth/userinfo.profile",
-							"https://www.googleapis.com/auth/contacts.readonly"
-						]
+						"scopes": {
+							"https://www.googleapis.com/auth/userinfo.email": "Access user email address",
+							"https://www.googleapis.com/auth/userinfo.profile": "Access user profile info",
+							"https://www.googleapis.com/auth/contacts.readonly": "Access contacts"
+						}
 					}
 				}
 			}

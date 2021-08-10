@@ -16,11 +16,11 @@
         "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
         "tokenUrl": "https://oauth2.googleapis.com/token",
         "refreshUrl": "http://localhost:8000/api/auth/callback",
-        "scopes": [
-          "https://www.googleapis.com/auth/userinfo.email",
-          "https://www.googleapis.com/auth/userinfo.profile",
-          "https://www.googleapis.com/auth/contacts.readonly"
-        ]
+        "scopes": {
+          "https://www.googleapis.com/auth/userinfo.email": "Access user email address",
+          "https://www.googleapis.com/auth/userinfo.profile": "Access user profile info",
+          "https://www.googleapis.com/auth/contacts.readonly": "Access contacts"
+        }
       }
     },
     "basePath": "/api",

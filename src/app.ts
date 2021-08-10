@@ -10,16 +10,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const options = {
-  oauth: {
-    clientId: GoogleOAuth.clientId,
-    clientSecret: GoogleOAuth.clientSecret,
-    appName: 'Gmail Extension',
-    scopeSeparator: ',',
+  swaggerOptions: {
+    oauth2RedirectUrl: GoogleOAuth.redirectURI,
+    oauth: {
+      clientId: GoogleOAuth.clientId,
+      clientSecret: GoogleOAuth.clientSecret,
+    },
   },
 };
 
+console.log('~~~~ options', process.env.CLIENT_ID);
+
 app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
-  return res.send(swaggerUi.generateHTML(await import('./swagger.json'), undefined, options));
+  return res.send(swaggerUi.generateHTML(await import('./swagger.json'), options));
 });
 
 RegisterRoutes(app);
