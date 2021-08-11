@@ -1,22 +1,25 @@
-import express from 'express';
-import { IUserCreateReq, IUserGetRes } from 'types/user';
-import { Body, Controller, Get, Path, Post, Route, Security, SuccessResponse, Request } from 'tsoa';
-import { UsersService } from '../services/userService';
+import { Controller, Get, Route, Security, Request } from 'tsoa';
+import { IRequest } from 'types/general';
+import { IGetUserRes } from 'types/user';
+// import { UserService } from '../services/userService';
 
 @Security('basic')
 @Route('users')
 export class UsersController extends Controller {
-  @Get('{email}')
-  public async getUser(@Path() email: string, @Request() request: express.Request): Promise<IUserGetRes> {
-    console.log('~~~~~ request', request);
-    return new UsersService().getByEmail(email);
-  }
-
-  @SuccessResponse('201', 'Created') // Custom success response
-  @Post()
-  public async createUser(@Body() requestBody: IUserCreateReq): Promise<void> {
-    this.setStatus(201); // set return status 201
-    new UsersService().create(requestBody);
-    return;
+  /**
+   * Returns user info
+   * @param request
+   * @returns
+   */
+  @Get('info')
+  public async getUser(@Request() request: IRequest): Promise<IGetUserRes> {
+    const user = request.user;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      updated_at: user.updated_at,
+      created_at: user.created_at,
+    };
   }
 }

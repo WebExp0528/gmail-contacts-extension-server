@@ -6,6 +6,22 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"IContacts": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Pick_IUser.id-or-email-or-name-or-created_at-or-updated_at_": {
 				"properties": {
 					"id": {
@@ -37,20 +53,8 @@
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"IUserGetRes": {
+			"IGetUserRes": {
 				"$ref": "#/components/schemas/Pick_IUser.id-or-email-or-name-or-created_at-or-updated_at_"
-			},
-			"IUserCreateReq": {
-				"properties": {
-					"authorization_code": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"authorization_code"
-				],
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -89,26 +93,15 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/users/{email}": {
+		"/auth/oauth/{email}": {
 			"get": {
-				"operationId": "GetUser",
+				"operationId": "GetAuthURI",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IUserGetRes"
-								}
-							}
-						}
+					"302": {
+						"description": "Redirect"
 					}
 				},
-				"security": [
-					{
-						"basic": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -121,12 +114,51 @@
 				]
 			}
 		},
-		"/users": {
-			"post": {
-				"operationId": "CreateUser",
+		"/auth/callback": {
+			"get": {
+				"operationId": "AuthCallback",
 				"responses": {
-					"201": {
-						"description": "Created"
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "state",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/contacts/list": {
+			"get": {
+				"operationId": "GetContactList",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IContacts"
+									},
+									"type": "array"
+								}
+							}
+						}
 					}
 				},
 				"security": [
@@ -134,17 +166,31 @@
 						"basic": []
 					}
 				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/IUserCreateReq"
+				"parameters": []
+			}
+		},
+		"/users/info": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IGetUserRes"
+								}
 							}
 						}
 					}
-				}
+				},
+				"description": "Returns user info",
+				"security": [
+					{
+						"basic": []
+					}
+				],
+				"parameters": []
 			}
 		}
 	},

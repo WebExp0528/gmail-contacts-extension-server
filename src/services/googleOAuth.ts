@@ -1,12 +1,17 @@
-import { google } from 'googleapis';
+import { google, people_v1 } from 'googleapis';
 import { IToken } from 'types/auth';
+import { IUser } from 'types/user';
+import { UserService } from './userService';
+import _ from 'lodash';
+import { IContacts } from 'types/contacts';
 
 export class GoogleOAuth {
-  private static instance: GoogleOAuth;
   static clientId = process.env.CLIENT_ID;
   static clientSecret = process.env.CLIENT_SECRET;
   static redirectURI = process.env.REDIRECT_URI;
 
+  email = '';
+  peopleClient: people_v1.People | undefined;
   oAuthClient;
   tokens: IToken = {};
 
@@ -20,17 +25,19 @@ export class GoogleOAuth {
     this.oAuthClient = new google.auth.OAuth2(GoogleOAuth.clientId, GoogleOAuth.clientSecret, GoogleOAuth.redirectURI);
   }
 
-  static createInstance = () => {
-    if (!GoogleOAuth.instance) {
-      GoogleOAuth.instance = new GoogleOAuth();
+  onChangedTokens = (tokens: IToken): void => {
+    if (tokens.refresh_token) {
+      // store the refresh_token in my database!
+      const userService = new UserService();
+      userService.update(this.email, { refresh_token: tokens.refresh_token });
     }
-    return GoogleOAuth.instance;
+    this.tokens = {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    };
   };
 
-  /**
-   *
-   */
-  getOAuthUri = async (state?: string): Promise<string> => {
+  getOAuthUri = (state?: string): string => {
     return this.oAuthClient.generateAuthUrl({
       access_type: 'offline',
       prompt: 'consent',
@@ -51,6 +58,31 @@ export class GoogleOAuth {
 
     return this.tokens;
   };
-}
 
-export default GoogleOAuth.createInstance();
+  setToken = (email: string, token: IToken): void => {
+    this.email = email;
+    this.oAuthClient.setCredentials(token);
+    this.oAuthClient.on('tokens', this.onChangedTokens);
+    this.peopleClient = google.people({
+      version: 'v1',
+      auth: this.oAuthClient,
+    });
+  };
+
+  getUser = async (): Promise<Pick<IUser, 'name'>> => {
+    const { data } = (await this.peopleClient?.people.get({ resourceName: 'people/me', personFields: 'names' })) || {};
+    return { name: _.get(data, 'names[0].displayName', '') };
+  };
+
+  getContacts = async (): Promise<IContacts[]> => {
+    const { data } =
+      (await this.peopleClient?.people.connections.list({
+        resourceName: 'people/me',
+        personFields: 'emailAddresses,names',
+      })) || {};
+
+    return _.get(data, 'connections', []).map((el): IContacts => {
+      return { name: _.get(el, 'names[0].displayName'), email: _.get(el, 'emailAddresses[0].value') };
+    });
+  };
+}
