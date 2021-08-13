@@ -13,7 +13,8 @@
     "lint": "eslint 'src/**/*.*'",
     "lint:fix": "prettier 'src/**/*.*' --write",
     "prepare": "husky install",
-    "diagram": "ts-node ./node_modules/.bin/typeorm-uml ormconfig.js  -f png -d src/ERD.png"
+    "diagram": "ts-node ./node_modules/.bin/typeorm-uml ormconfig.js  -f png -d src/ERD.png",
+    "heroku-postbuild": "yarn build"
   },
   "dependencies": {
     "cors": "^2.8.5",
