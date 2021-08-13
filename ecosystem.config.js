@@ -1,6 +1,3 @@
-const path = require('path');
-const dotenv = require('dotenv').config({ path: path.resolve(__dirname, './.env') });
-
 module.exports = {
   apps: [
     {
@@ -8,9 +5,7 @@ module.exports = {
       script: './build/server.js', // Your entry point
       instances: 1,
       max_memory_restart: '2G',
-      env: {
-        ...dotenv.parsed,
-      },
+      env: {},
     },
   ],
 };

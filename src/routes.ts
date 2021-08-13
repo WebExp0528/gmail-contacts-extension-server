@@ -45,12 +45,12 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/api/auth/oauth/:email',
+        app.get('/api/auth/oauth',
 
             function AuthController_getAuthURI(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    email: {"in":"path","name":"email","required":true,"dataType":"string"},
+                    state: {"in":"query","name":"state","dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -73,9 +73,9 @@ export function RegisterRoutes(app: express.Router) {
 
             function AuthController_authCallback(request: any, response: any, next: any) {
             const args = {
-                    code: {"in":"query","name":"code","required":true,"dataType":"string"},
-                    email: {"in":"query","name":"state","required":true,"dataType":"string"},
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    code: {"in":"query","name":"code","required":true,"dataType":"string"},
+                    state: {"in":"query","name":"state","dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

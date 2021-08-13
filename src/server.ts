@@ -7,6 +7,8 @@ import { app } from './app';
 
 const port = process.env.PORT || 8000;
 
+console.log('~~~~~~ redirect uri', process.env.REDIRECT_URI);
+
 getDbConnection()
   .then(async (conn) => {
     await conn.runMigrations();
