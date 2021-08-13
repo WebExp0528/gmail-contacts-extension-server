@@ -6,7 +6,7 @@ import { getDbConnection } from './database';
 import { app } from './app';
 
 const port = process.env.PORT || 8000;
-
+console.log('~~~~~~ process ', process.env.NODE_ENV);
 getDbConnection()
   .then(async (conn) => {
     await conn.runMigrations();
