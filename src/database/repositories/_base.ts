@@ -2,7 +2,7 @@ import { FindConditions, FindManyOptions, FindOneOptions, Repository } from 'typ
 import { BaseEntity } from '../entities/_base';
 import { getDbConnection } from '..';
 import { PostgresError } from '../postgres/error';
-import { IBaseEntity } from 'types/baseEntity';
+import { IBaseEntity } from './../../types/baseEntity';
 
 /**
  * The generic type arguments for BaseRepository seem a little convoluted,

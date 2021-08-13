@@ -1,6 +1,6 @@
-import { BaseRepository } from 'database/repositories/_base';
-import { IBaseEntity } from 'types/baseEntity';
-import { IGetAllParams } from 'types/baseService';
+import { BaseRepository } from './../database/repositories/_base';
+import { IBaseEntity } from './../types/baseEntity';
+import { IGetAllParams } from './../types/baseService';
 import { OperationError } from '../common/operationError';
 import { HttpStatusCode } from '../common/httpStatusCode';
 

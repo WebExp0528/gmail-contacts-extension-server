@@ -1,7 +1,8 @@
-import { IRequest } from 'types/general';
 import { Controller, Get, Route, Security, Request } from 'tsoa';
+
+import { IRequest } from '../types/general';
 import { GoogleOAuth } from './../services/googleOAuth';
-import { IContacts } from 'types/contacts';
+import { IContacts } from '../types/contacts';
 
 @Security('basic')
 @Route('contacts')
