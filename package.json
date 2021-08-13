@@ -9,7 +9,7 @@
     "build": "tsoa spec-and-routes && tsc",
     "apredev": "yarn diagram",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "start": "pm2 start",
+    "start": "pm2-runtime start ecosystem.config.js",
     "lint": "eslint 'src/**/*.*'",
     "lint:fix": "prettier 'src/**/*.*' --write",
     "prepare": "husky install",

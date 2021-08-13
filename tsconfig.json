@@ -34,7 +34,7 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "typeRoots": ["node_modules/@types", "node_modules/googleapis"]
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["node_modules", "build", ".git", "ecosystem.config.dev.js"]
 }
