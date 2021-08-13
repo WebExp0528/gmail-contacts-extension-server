@@ -31,18 +31,5 @@
     "authenticationModule": "./src/middlewares/authentication.ts",
     "basePath": "/api",
     "routesDir": "src"
-  },
-  "compilerOptions": {
-    "typeRoots": ["node_modules/@types"],
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@models/*": ["./src/database/models/*"],
-      "@repositories/*": ["./src/database/repositories/*"],
-      "@database/*": ["./src/database/*"],
-      "@entities/*": ["./src/database/entities/*"],
-      "common/*": ["./src/common/*"],
-      "types/*": ["./src/types/*"]
-    }
   }
 }

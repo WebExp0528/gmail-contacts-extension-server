@@ -1,5 +1,5 @@
-import { IRequest } from 'types/general';
-import { IUser } from 'types/user';
+import { IRequest } from '../types/general';
+import { IUser } from '../types/user';
 import { UserService } from '../services/userService';
 
 export async function expressAuthentication(

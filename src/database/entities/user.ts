@@ -1,5 +1,5 @@
-import { IUser } from 'types/user';
 import { Column, Entity } from 'typeorm';
+import { IUser } from './../../types/user';
 import { BaseEntity } from './_base';
 
 @Entity('users')

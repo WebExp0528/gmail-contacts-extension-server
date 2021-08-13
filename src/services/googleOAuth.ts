@@ -1,9 +1,9 @@
 import { google, people_v1 } from 'googleapis';
-import { IToken } from 'types/auth';
-import { IUser } from 'types/user';
+import { IToken } from '../types/auth';
+import { IUser } from '../types/user';
 import { UserService } from './userService';
 import _ from 'lodash';
-import { IContacts } from 'types/contacts';
+import { IContacts } from '../types/contacts';
 
 export class GoogleOAuth {
   static clientId = process.env.CLIENT_ID;

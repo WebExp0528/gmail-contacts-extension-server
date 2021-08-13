@@ -1,6 +1,6 @@
 import { Controller, Get, Route, Security, Request } from 'tsoa';
-import { IRequest } from 'types/general';
-import { IGetUserRes } from 'types/user';
+import { IRequest } from './../types/general';
+import { IGetUserRes } from './../types/user';
 // import { UserService } from '../services/userService';
 
 @Security('basic')

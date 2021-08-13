@@ -1,15 +1,16 @@
 {
   "name": "gmail-extension-server",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "https://sorza-jimmy@github.com/sorza-jimmy/gmail-extension-server.git",
   "author": "Jimmy Sorza <sorza.jimmy05@gmail.com>",
   "license": "MIT",
+  "main": "./build/server.js",
   "scripts": {
     "build": "tsoa spec-and-routes && tsc",
     "apredev": "yarn diagram",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "start": "pm2 start",
+    "start1": "node ./build/server.js",
+    "start": "pm2-runtime start ecosystem.config.js",
     "lint": "eslint 'src/**/*.*'",
     "lint:fix": "prettier 'src/**/*.*' --write",
     "prepare": "husky install",
@@ -25,7 +26,7 @@
     "pm2": "^5.1.0",
     "swagger-ui-express": "^4.1.6",
     "tsoa": "^3.9.0",
-    "typeorm": "^0.2.36"
+    "typeorm": "^0.2.37"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

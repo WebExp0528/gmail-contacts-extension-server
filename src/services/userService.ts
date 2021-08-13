@@ -1,4 +1,4 @@
-import { ICreateUserProps, IUser } from 'types/user';
+import { ICreateUserProps, IUser } from './../types/user';
 import { BaseService } from './_base';
 import { OperationError } from '../common/operationError';
 import { HttpStatusCode } from '../common/httpStatusCode';
@@ -6,7 +6,7 @@ import { UserRepository } from '../database/repositories/user';
 import { PostgresError } from './../database/postgres/error';
 import { PostgresErrorCode } from './../database/postgres/errorCodes';
 
-import { Optional } from 'types/general';
+import { Optional } from './../types/general';
 export class UserService extends BaseService<UserRepository, IUser> {
   constructor() {
     const repo = new UserRepository();
