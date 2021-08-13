@@ -15,6 +15,9 @@ const baseOptions = {
   name: process.env.DB_NAME,
   database: process.env.DB_NAME,
   synchronize: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 module.exports = [
