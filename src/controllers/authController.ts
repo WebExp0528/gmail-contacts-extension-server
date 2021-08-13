@@ -1,4 +1,5 @@
 import { Request as ExpressReq } from 'express';
+import { OperationError } from './../common/operationError';
 import { Controller, Get, Route, SuccessResponse, Query, Request } from 'tsoa';
 
 import { UserService } from '../services/userService';
@@ -28,7 +29,9 @@ export class AuthController extends Controller {
     const token = await googleClient.getOAuthTokenFromCode(code);
     googleClient.setToken(token);
     const { name, email } = await googleClient.getUser();
-    console.log('~~~~~~~~ email address', email);
+    if (!email) {
+      throw new OperationError('INVALID_EMAIL', 404);
+    }
     const userService = new UserService();
     await userService.create({ name, email, refresh_token: token.refresh_token || '' });
     request?.res?.send(this.authResponseHTML()).end();
