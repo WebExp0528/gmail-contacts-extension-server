@@ -10,7 +10,6 @@ module.exports = {
       max_memory_restart: '2G',
       env: {
         NODE_ENV: 'production',
-        PORT: '8080',
         ...dotenv.parsed,
       },
     },
