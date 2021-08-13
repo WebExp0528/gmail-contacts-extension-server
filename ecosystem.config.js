@@ -9,12 +9,9 @@ module.exports = {
       instances: 1,
       max_memory_restart: '2G',
       env: {
-        NODE_ENV: 'development',
+        NODE_ENV: 'production',
         PORT: '8080',
         ...dotenv.parsed,
-      },
-      env_production: {
-        NODE_ENV: 'production',
       },
     },
   ],
