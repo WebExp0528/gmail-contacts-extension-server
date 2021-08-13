@@ -1,4 +1,4 @@
-import path from 'path';
+import HomePageTemplate from './view/homeTemplate.html';
 import express, { Response as ExResponse, Request as ExRequest } from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
@@ -27,7 +27,7 @@ app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './view/home.html'));
+  res.send(HomePageTemplate).end();
 });
 
 RegisterRoutes(app);
