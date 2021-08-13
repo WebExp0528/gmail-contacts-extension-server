@@ -11,7 +11,7 @@ export class ContactController extends Controller {
   public async getContactList(@Request() request: IRequest): Promise<IContacts[]> {
     const user = request.user;
     const googleOAuth = new GoogleOAuth();
-    googleOAuth.setToken(user.email, { refresh_token: user.refresh_token });
+    googleOAuth.setToken({ refresh_token: user.refresh_token }, user.email);
     const contacts = googleOAuth.getContacts();
     return contacts;
   }

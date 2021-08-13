@@ -1,32 +1,34 @@
 import { Request as ExpressReq } from 'express';
-import { Controller, Get, Route, SuccessResponse, Query, Request, Path } from 'tsoa';
+import { Controller, Get, Route, SuccessResponse, Query, Request } from 'tsoa';
 
-import { OperationError } from './../common/operationError';
 import { UserService } from '../services/userService';
 import { GoogleOAuth } from './../services/googleOAuth';
 
 @Route('auth')
 export class AuthController extends Controller {
-  @Get('oauth/{email}')
+  /**
+   * Go to OAuth Page
+   *
+   * @param request
+   */
+  @Get('oauth')
   @SuccessResponse(302, 'Redirect')
-  public async getAuthURI(@Request() request: ExpressReq, @Path('email') email: string): Promise<void> {
-    if (!email) {
-      throw new OperationError('INVALID_EMAIL', 400);
-    }
-    const uri = new GoogleOAuth().getOAuthUri(email);
+  public async getAuthURI(@Request() request: ExpressReq, @Query('state') state?: string): Promise<void> {
+    const uri = new GoogleOAuth().getOAuthUri(state);
     request?.res?.redirect(uri);
   }
 
   @Get('callback')
   public async authCallback(
+    @Request() request: ExpressReq,
     @Query('code') code: string,
-    @Query('state') email: string,
-    @Request() request: ExpressReq
+    @Query('state') state?: string
   ): Promise<void> {
     const googleClient = new GoogleOAuth();
     const token = await googleClient.getOAuthTokenFromCode(code);
-    googleClient.setToken(email, token);
-    const { name } = await googleClient.getUser();
+    googleClient.setToken(token);
+    const { name, email } = await googleClient.getUser();
+    console.log('~~~~~~~~ email address', email);
     const userService = new UserService();
     await userService.create({ name, email, refresh_token: token.refresh_token || '' });
     request?.res?.send(this.authResponseHTML()).end();
