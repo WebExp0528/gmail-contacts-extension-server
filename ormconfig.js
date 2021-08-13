@@ -1,5 +1,5 @@
 const basePath = process.env.NODE_ENV === 'development' ? 'src/database' : 'build/database';
-
+console.log('~~~~ node env', process.env.NODE_ENV, basePath);
 const baseOptions = {
   cli: {
     migrationsDir: '${basePath}/migrations',
