@@ -72,7 +72,6 @@ export class GoogleOAuth {
   getUser = async (): Promise<Pick<IUser, 'name' | 'email'>> => {
     const { data } =
       (await this.peopleClient?.people.get({ resourceName: 'people/me', personFields: 'emailAddresses,names' })) || {};
-    console.log('~~~~~ result', data?.emailAddresses);
     return { name: _.get(data, 'names[0].displayName', ''), email: _.get(data, 'emailAddresses[0].value', '') };
   };
 
