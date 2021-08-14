@@ -1,5 +1,6 @@
-import { IBaseEntity } from 'types/baseEntity';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { IBaseEntity } from './../../types/baseEntity';
 
 export class BaseEntity implements IBaseEntity {
   /**

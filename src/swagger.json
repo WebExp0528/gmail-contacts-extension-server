@@ -93,7 +93,7 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/auth/oauth/{email}": {
+		"/auth/oauth": {
 			"get": {
 				"operationId": "GetAuthURI",
 				"responses": {
@@ -101,12 +101,13 @@
 						"description": "Redirect"
 					}
 				},
+				"description": "Go to OAuth Page",
 				"security": [],
 				"parameters": [
 					{
-						"in": "path",
-						"name": "email",
-						"required": true,
+						"in": "query",
+						"name": "state",
+						"required": false,
 						"schema": {
 							"type": "string"
 						}
@@ -135,7 +136,7 @@
 					{
 						"in": "query",
 						"name": "state",
-						"required": true,
+						"required": false,
 						"schema": {
 							"type": "string"
 						}

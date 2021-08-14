@@ -1,9 +1,9 @@
 import { google, people_v1 } from 'googleapis';
-import { IToken } from 'types/auth';
-import { IUser } from 'types/user';
+import { IToken } from '../types/auth';
+import { IUser } from '../types/user';
 import { UserService } from './userService';
 import _ from 'lodash';
-import { IContacts } from 'types/contacts';
+import { IContacts } from '../types/contacts';
 
 export class GoogleOAuth {
   static clientId = process.env.CLIENT_ID;
@@ -59,7 +59,7 @@ export class GoogleOAuth {
     return this.tokens;
   };
 
-  setToken = (email: string, token: IToken): void => {
+  setToken = (token: IToken, email = ''): void => {
     this.email = email;
     this.oAuthClient.setCredentials(token);
     this.oAuthClient.on('tokens', this.onChangedTokens);
@@ -69,9 +69,10 @@ export class GoogleOAuth {
     });
   };
 
-  getUser = async (): Promise<Pick<IUser, 'name'>> => {
-    const { data } = (await this.peopleClient?.people.get({ resourceName: 'people/me', personFields: 'names' })) || {};
-    return { name: _.get(data, 'names[0].displayName', '') };
+  getUser = async (): Promise<Pick<IUser, 'name' | 'email'>> => {
+    const { data } =
+      (await this.peopleClient?.people.get({ resourceName: 'people/me', personFields: 'emailAddresses,names' })) || {};
+    return { name: _.get(data, 'names[0].displayName', ''), email: _.get(data, 'emailAddresses[0].value', '') };
   };
 
   getContacts = async (): Promise<IContacts[]> => {
