@@ -1,14 +1,22 @@
-const basePath = process.env.NODE_ENV === 'development' ? 'src/database' : 'build/database';
-console.log('~~~~ node env', process.env.NODE_ENV, basePath);
+const baseConfig =
+  process.env.NODE_ENV === 'development'
+    ? {
+        entities: [`${__dirname}/src/database/entities/**/*.ts`],
+        migrations: [`${__dirname}/src/database/migrations/*.ts`],
+      }
+    : {
+        entities: [`${__dirname}/build/database/entities/**/*.js`],
+        migrations: [`${__dirname}/build/database/migrations/*.js`],
+      };
+
 const baseOptions = {
+  ...baseConfig,
   cli: {
-    migrationsDir: '${basePath}/migrations',
-    entitiesDir: '${basePath}/entities',
+    migrationsDir: `${__dirname}/src/database/migrations`,
+    entitiesDir: `${__dirname}/src/database/entities`,
   },
   host: process.env.DB_HOST,
   logging: false,
-  entities: [`${__dirname}/${basePath}/entities/**/*.ts`],
-  migrations: [`${__dirname}/${basePath}/migrations/*.ts`],
   password: process.env.DB_PASS,
   port: 5432,
   type: 'postgres',
